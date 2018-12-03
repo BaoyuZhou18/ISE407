@@ -16,18 +16,57 @@ rng(seed);
 A = rand(n);
 A = A'*A;
 
-
-
-% When opt == 3, using MATLAB's own function 'chol()'
-if opt == 3
+% When opt == 1, doing basic linear algebra process
+if opt == 1
+    
+    % Initial upper triangular matrix R
+    R = zeros(n);
     
     % begin timer
     tic;
-    
-    R = chol(A);
-    
+        
+    R(1,1) = sqrt(A(1,1));
+    R(1,2:n) = A(1,2:n)/R(1,1);
+    R(2,2) = sqrt(A(2,2) - R(1,2)^2);
+        
+    for j = 1:n
+
+        R(j,j) = sqrt(A(j,j) - R(1:j-1,j)'*R(1:j-1,j));
+            
+        for k = j+1:n
+            R(j,k) = (A(j,k) - R(1:j-1,j)'*R(1:j-1,k))/R(j,j);
+        end
+            
+    end
+            
+        
     % end timer
     toc;
+
+
+
+% When opt == 2, doing Cholesk update process by using recursive functions
+else if opt == 2
+        
+
+
+
+
+% When opt == 3, using MATLAB's own function 'chol()'
+        else if opt == 3
+    
+            % begin timer
+            tic;
+            
+            % use MATLAB's own function
+            R = chol(A);
+    
+            % end timer
+            toc;
+    
+        end
+        
+    end
     
 end
 
