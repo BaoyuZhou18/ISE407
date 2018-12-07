@@ -26,10 +26,6 @@ if opt == 1
     % begin timer
     tic;
         
-    R(1,1) = sqrt(A(1,1));
-    R(1,2:n) = A(1,2:n)/R(1,1);
-    R(2,2) = sqrt(A(2,2) - R(1,2)^2);
-        
     for j = 1:n
 
         R(j,j) = sqrt(A(j,j) - R(1:j-1,j)'*R(1:j-1,j));
