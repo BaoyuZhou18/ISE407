@@ -1,4 +1,4 @@
-function [R] = cholesky(n,seed,opt)
+function [R,A,t] = cholesky(n,seed,opt)
 % This function is for testing performance of different methods for calculating cholesky factorization
 % Input      n    : dimension size for matrices
 %            seed : random seed number
@@ -7,6 +7,7 @@ function [R] = cholesky(n,seed,opt)
 %                   When opt == 2, doing Cholesk update process by using recursive functions
 %                   When opt == 3, using MATLAB's own function 'chol()'
 % Output     R    : an upper triangular matrix satisfying R'*R = A
+%            A    : a symmetric positive definite matrix
 %            t    : time used for getting R from A
 
 % Set random seed
@@ -41,16 +42,21 @@ if opt == 1
             
         
     % end timer
-    toc;
+    t = toc;
 
 
 
 % When opt == 2, doing Cholesk update process by using recursive functions
 else if opt == 2
         
-
-
-
+        % begin timer
+        tic;
+        
+        % use Cholesky recursive update process
+        R = recur(A);
+        
+        % end timer
+        t = toc;
 
 % When opt == 3, using MATLAB's own function 'chol()'
         else if opt == 3
@@ -62,7 +68,7 @@ else if opt == 2
             R = chol(A);
     
             % end timer
-            toc;
+            t = toc;
     
         end
         
